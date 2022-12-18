@@ -25,19 +25,19 @@ export default function AuthScreen({ navigation }: Props) {
 
                 <StyledButton text={"Login"} cb={() => setIsLoginModalVisable(true)} />
 
-                <StyledButton text={"Sign up"} cb={() =>  setIsSignUpModalVisable(true)} />
+                <StyledButton text={"Sign up"} cb={() => setIsSignUpModalVisable(true)} />
 
-                <LoginModal
-                    isVisible={isLoginModalVisable}
-                    closeModal={() => setIsLoginModalVisable(prev => !prev)}
-                />
-
-                <SignUpModal
-                    isVisible={isSignUpModalVisable}
-                    closeModal={() => setIsSignUpModalVisable(prev => !prev)}
-                />
 
             </ButtonsContainer>
+            <LoginModal
+                isVisible={isLoginModalVisable}
+                closeModal={() => setIsLoginModalVisable(prev => !prev)}
+            />
+
+            <SignUpModal
+                isVisible={isSignUpModalVisable}
+                closeModal={() => setIsSignUpModalVisable(prev => !prev)}
+            />
         </AuthScreenContainer>
     )
 }
