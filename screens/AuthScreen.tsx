@@ -5,12 +5,14 @@ import { AuthStackParams } from "../types";
 import styled from 'styled-components/native';
 import StyledButton from './../components/molecules/StyledButton';
 import LoginModal from './../components/organisms/LoginModal';
+import SignUpModal from './../components/organisms/SignUpModal';
 
 type Props = NativeStackScreenProps<AuthStackParams, "Auth">;
 
 export default function AuthScreen({ navigation }: Props) {
 
     const [isLoginModalVisable, setIsLoginModalVisable] = useState(false)
+    const [isSignUpModalVisable, setIsSignUpModalVisable] = useState(false)
 
     return (
         <AuthScreenContainer>
@@ -23,10 +25,17 @@ export default function AuthScreen({ navigation }: Props) {
 
                 <StyledButton text={"Login"} cb={() => setIsLoginModalVisable(true)} />
 
-                <StyledButton text={"Sign up"} cb={() => console.log("Login")} />
+                <StyledButton text={"Sign up"} cb={() =>  setIsSignUpModalVisable(true)} />
 
-                <LoginModal isVisible={isLoginModalVisable} 
-                closeModal={() => setIsLoginModalVisable(prev => !prev)}/>
+                <LoginModal
+                    isVisible={isLoginModalVisable}
+                    closeModal={() => setIsLoginModalVisable(prev => !prev)}
+                />
+
+                <SignUpModal
+                    isVisible={isSignUpModalVisable}
+                    closeModal={() => setIsSignUpModalVisable(prev => !prev)}
+                />
 
             </ButtonsContainer>
         </AuthScreenContainer>
