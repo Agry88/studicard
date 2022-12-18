@@ -16,6 +16,7 @@ export default function StyledButton({ color, text, cb }: Prop) {
     return (
         <StyledButtonContainer color={buttonContainerColor}>
             <TouchableHighlight
+                style={{ borderRadius: 6 }}
                 underlayColor={onPressColor}
                 onPress={cb}
             >
