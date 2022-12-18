@@ -31,17 +31,17 @@ export default function SignUpModal(props: Props) {
                 <InputsContainer>
 
                     <MyCustomInputBlock1
-                        label="nickname"
+                        label="Nickname"
                         ref={nickNameRef}
                     />
 
                     <MyCustomInputBlock1
-                        label="email"
+                        label="Email"
                         ref={emailRef}
                     />
 
                     <MyCustomInputBlock1
-                        label="password"
+                        label="Password"
                         ref={passwordRef}
                         isTextAreaSecure={true}
                     />

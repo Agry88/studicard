@@ -30,12 +30,12 @@ export default function LoginModal(props: Props) {
                 <InputsContainer>
 
                     <MyCustomInputBlock1
-                        label="email"
+                        label="Email"
                         ref={emailRef}
                     />
 
                     <MyCustomInputBlock1
-                        label="password"
+                        label="Password"
                         ref={passwordRef}
                         isTextAreaSecure={true}
                     />
