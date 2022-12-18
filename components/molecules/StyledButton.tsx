@@ -1,16 +1,24 @@
 import StyledButtonContainer from "../atoms/StyledButtonContainer";
 import StyledText from './../atoms/StyledText';
 import { TouchableHighlight } from 'react-native';
+import shadeColor from "../../utils/shadeColor";
 
 type Prop = {
+    // Hex
+    color?: `#${string}`;
     text: string;
     cb: () => void;
 }
 
-export default function StyledButton({ text , cb }: Prop) {
+export default function StyledButton({ color, text, cb }: Prop) {
+    const buttonContainerColor = color ? color : "#2C6369";
+    const onPressColor = shadeColor(buttonContainerColor, 20);
     return (
-        <StyledButtonContainer>
-            <TouchableHighlight onPress={cb}>
+        <StyledButtonContainer color={buttonContainerColor}>
+            <TouchableHighlight
+                underlayColor={onPressColor}
+                onPress={cb}
+            >
                 <StyledText text={text} />
             </TouchableHighlight>
         </StyledButtonContainer>

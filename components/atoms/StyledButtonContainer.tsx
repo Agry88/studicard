@@ -1,16 +1,20 @@
 import * as React from 'react';
 import styled from 'styled-components/native';
 
+type Prop = {
+    // Hex
+    color?: `#${string}`;
+    children: JSX.Element;
+}
 
-export default function StyledButtonContainer({ children }: { children: JSX.Element }) {
+export default function StyledButtonContainer({ color ,children }: Prop) {
     return ( 
-        <ButtonContainer>
+        <ButtonContainer style={{ backgroundColor: color }}>
             {children}
         </ButtonContainer>
      );
 }
 
 const ButtonContainer = styled.View`
-    background-color: #2C6369;
     border-radius: 6px;
 `
