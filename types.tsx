@@ -8,8 +8,7 @@ export type RootStackParams = {
 }
 
 export type AuthStackParams = {
-  Login: undefined;
-  Signup: undefined;
+  Auth: undefined;
 };
 
 
