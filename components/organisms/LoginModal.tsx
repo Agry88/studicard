@@ -31,12 +31,12 @@ export default function LoginModal(props: Props) {
 
                     <MyCustomInputBlock1
                         label="Email"
-                        ref={emailRef}
+                        propRef={emailRef}
                     />
 
                     <MyCustomInputBlock1
                         label="Password"
-                        ref={passwordRef}
+                        propRef={passwordRef}
                         isTextAreaSecure={true}
                     />
 

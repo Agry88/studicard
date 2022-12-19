@@ -5,20 +5,20 @@ import styled from 'styled-components/native';
 
 type Props = {
     label: string;
-    ref: React.RefObject<TextInput>
+    propRef: React.RefObject<TextInput>;
     isTextAreaSecure?: boolean;
 }
 
 export default function MyCustomInputBlock1(props: Props) {
 
-    const { label, ref } = props;
+    const { label, propRef } = props;
     const [isTextAreaSecure, setIsTextAreaSecure] = useState(props.isTextAreaSecure ?? false)
 
     return (
         <View>
             <Label>{label}</Label>
             <InputContainer>
-                <Input secureTextEntry={isTextAreaSecure} ref={ref} />
+                <Input secureTextEntry={isTextAreaSecure} ref={propRef} />
                 {props.isTextAreaSecure &&
                     (isTextAreaSecure ?
                         <Entypo

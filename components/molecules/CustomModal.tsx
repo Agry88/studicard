@@ -1,4 +1,4 @@
-import { View, Modal, TouchableWithoutFeedback, TextInput } from "react-native";
+import { View, Modal, TouchableWithoutFeedback, Dimensions } from "react-native";
 import styled from 'styled-components/native';
 
 type Props = {
@@ -11,6 +11,7 @@ type Props = {
 export default function CustomModal(props: Props) {
 
     const { isVisible, closeModal , children , title } = props;
+    const modalHeight = Dimensions.get('window').height * 45 / 100;
 
     return (
         <View>
@@ -24,7 +25,7 @@ export default function CustomModal(props: Props) {
                     <OutSideModal />
                 </TouchableWithoutFeedback>
 
-                <ModalContainer>
+                <ModalContainer style={{ marginTop: modalHeight }}>
                     <ModalContent>
                         <ModalTitle>{title}</ModalTitle>
 
@@ -47,7 +48,6 @@ const OutSideModal = styled.View`
 `
 const ModalContainer = styled.View`
     flex: 1;
-    margin-top: 45vh;
     margin-left: 1%;
     margin-right: 1%;
     background-color: #fff;
