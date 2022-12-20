@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
+import { Image } from "react-native";
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AuthStackParams } from "../types";
 import styled from 'styled-components/native';
@@ -18,6 +19,9 @@ export default function AuthScreen({ navigation }: Props) {
         <AuthScreenContainer>
 
             <TitleContainer>
+                <TitleImage
+                    source={require('../assets/images/studicard_icon.png')}
+                />
                 <TitleText>StudiCard</TitleText>
             </TitleContainer>
 
@@ -51,6 +55,7 @@ const AuthScreenContainer = styled.View`
 `
 
 const TitleContainer = styled.View`
+  position: relative;
   min-height: 60%;
   flex: 1;
   justify-content: center;
@@ -58,12 +63,21 @@ const TitleContainer = styled.View`
 `
 
 const TitleText = styled.Text`
+    potition: absolute;
+    top: -10px
     font-family: 'Arial';
     font-style: italic;
     font-weight: 700;
     font-size: 37px;
     line-height: 43px;
     color: #fff;
+`
+
+const TitleImage = styled.Image`
+    position: absolute;
+    width: 250;
+    height: 250;
+    resizeMode: contain;
 `
 
 const ButtonsContainer = styled.View`
