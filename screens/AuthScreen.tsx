@@ -1,16 +1,16 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { Image } from "react-native";
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { AuthStackParams } from "../types";
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParams } from "../types";
 import styled from 'styled-components/native';
+import { useNavigation } from '@react-navigation/native';
 import StyledButton from './../components/molecules/StyledButton';
 import LoginModal from './../components/organisms/LoginModal';
 import SignUpModal from './../components/organisms/SignUpModal';
 
-type Props = NativeStackScreenProps<AuthStackParams, "Auth">;
-
-export default function AuthScreen({ navigation }: Props) {
+export default function AuthScreen() {
+    
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParams>>()
 
     const [isLoginModalVisable, setIsLoginModalVisable] = useState(false)
     const [isSignUpModalVisable, setIsSignUpModalVisable] = useState(false)
@@ -36,6 +36,7 @@ export default function AuthScreen({ navigation }: Props) {
             <LoginModal
                 isVisible={isLoginModalVisable}
                 closeModal={() => setIsLoginModalVisable(prev => !prev)}
+                login={() => navigation.navigate('MainStack')}
             />
 
             <SignUpModal

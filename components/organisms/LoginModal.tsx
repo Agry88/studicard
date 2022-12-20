@@ -1,19 +1,22 @@
 import { useRef, useState } from "react";
 import { TextInput, View } from "react-native";
 import styled from 'styled-components/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import MyCustomInputBlock1 from './../molecules/InputBlock';
 import CustomModal from './../molecules/CustomModal';
 import StyledButton from './../molecules/StyledButton';
 import CheckBoxWithLabel from './../atoms/CheckboxWithLabel';
+import { AuthStackParams } from "../../types";
 
 type Props = {
     isVisible: boolean,
     closeModal: () => void
+    login: () => void
 }
 
 export default function LoginModal(props: Props) {
 
-    const { isVisible, closeModal } = props;
+    const { isVisible, closeModal, login } = props;
 
     const emailRef = useRef<TextInput>(null)
     const passwordRef = useRef<TextInput>(null)
@@ -50,7 +53,7 @@ export default function LoginModal(props: Props) {
                 />
             </RememberMeContainer>
 
-            <LoginButton text="Login" cb={() => console.log("Login")} />
+            <LoginButton text="Login" cb={() => login()} />
 
         </CustomModal>
 
