@@ -15,7 +15,7 @@ export default function MyCustomInputBlock1(props: Props) {
     const [isTextAreaSecure, setIsTextAreaSecure] = useState(props.isTextAreaSecure ?? false)
 
     return (
-        <View>
+        <Container>
             <Label>{label}</Label>
             <InputContainer>
                 <Input secureTextEntry={isTextAreaSecure} ref={propRef} />
@@ -34,7 +34,7 @@ export default function MyCustomInputBlock1(props: Props) {
                     )
                 }
             </InputContainer>
-        </View>
+        </Container>
     )
 }
 
@@ -48,6 +48,7 @@ const Label = styled.Text`
 `
 
 const InputContainer = styled.View`
+    position: relative;
     width: 100%;
     height: 60px;
     background: rgba(192, 203, 200, 0.5);
@@ -59,6 +60,11 @@ const Input = styled.TextInput`
     padding: 0px 10px;
     width: 100%;
     height: 100%;
+`
+
+const Container = styled.View`
+    margin-top: 10px;
+    margin-bottom: 10px
 `
 
 const styles = StyleSheet.create({

@@ -6,9 +6,10 @@ type Props = {
     label: string;
     value: boolean;
     onValueChange: (newValue: boolean) => void;
+    labelSize?: number;
 }
 
-export default function CheckBoxWithLabel({ label, value, onValueChange }: Props) {
+export default function CheckBoxWithLabel({ label, value, onValueChange , labelSize }: Props) {
     return (
         <Container>
             <StyledChechbox
@@ -16,7 +17,7 @@ export default function CheckBoxWithLabel({ label, value, onValueChange }: Props
                 onValueChange={onValueChange}
                 color={value ? '#4630EB' : undefined}
             />
-            <Label>{label}</Label>
+            <Label style={{ fontSize:labelSize ?? 16 }}>{label}</Label>
         </Container>
     );
 }
@@ -25,13 +26,12 @@ const Container = styled.View`
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 10px;
 `
 
 const Label = styled.Text`
     display: inline-block;
-    font-size: 16px;
     font-weight: 700;
+    margin-left: 10px;
 `
 
 const StyledChechbox = styled(Checkbox)`

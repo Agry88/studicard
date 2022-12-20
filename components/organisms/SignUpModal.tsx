@@ -51,6 +51,7 @@ export default function SignUpModal(props: Props) {
                             label="I agree to the Terms and Conditions and the Privacy Policy"
                             value={isRememberMeChecked}
                             onValueChange={setIsRememberMeChecked}
+                            labelSize={12}
                         />
                     </PolicyContainer>
 
@@ -66,7 +67,7 @@ export default function SignUpModal(props: Props) {
 const InputsContainer = styled.View`
     flex: 1;
     gap: 20px;
-    margin-top: 30px;
+    margin-top: 20px;
 `
 
 const PolicyContainer = styled.View`

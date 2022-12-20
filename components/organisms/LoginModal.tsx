@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { TextInput } from "react-native";
+import { TextInput, View } from "react-native";
 import styled from 'styled-components/native';
 import MyCustomInputBlock1 from './../molecules/InputBlock';
 import CustomModal from './../molecules/CustomModal';
@@ -20,51 +20,51 @@ export default function LoginModal(props: Props) {
     const [isRememberMeChecked, setIsRememberMeChecked] = useState(false)
 
     return (
-        <>
-            <CustomModal
-                isVisible={isVisible}
-                closeModal={closeModal}
-                title="Login"
-            >
 
-                <InputsContainer>
+        <CustomModal
+            isVisible={isVisible}
+            closeModal={closeModal}
+            title="Login"
+        >
 
-                    <MyCustomInputBlock1
-                        label="Email"
-                        propRef={emailRef}
-                    />
+            <InputsContainer>
 
-                    <MyCustomInputBlock1
-                        label="Password"
-                        propRef={passwordRef}
-                        isTextAreaSecure={true}
-                    />
+                <MyCustomInputBlock1
+                    label="Email"
+                    propRef={emailRef}
+                />
 
-                    <RememberMeContainer>
-                        <CheckBoxWithLabel
-                            label="Remember me"
-                            value={isRememberMeChecked}
-                            onValueChange={setIsRememberMeChecked}
-                        />
-                    </RememberMeContainer>
+                <MyCustomInputBlock1
+                    label="Password"
+                    propRef={passwordRef}
+                    isTextAreaSecure={true}
+                />
 
-                    <LoginButton text="Login" cb={() => console.log("Login")} />
+            </InputsContainer>
 
-                </InputsContainer>
+            <RememberMeContainer>
+                <CheckBoxWithLabel
+                    label="Remember me"
+                    value={isRememberMeChecked}
+                    onValueChange={setIsRememberMeChecked}
+                />
+            </RememberMeContainer>
 
-            </CustomModal>
-        </>
+            <LoginButton text="Login" cb={() => console.log("Login")} />
+
+        </CustomModal>
+
     );
 }
 
 const InputsContainer = styled.View`
-    flex: 1;
-    gap: 20px;
     margin-top: 30px;
 `
 
 const RememberMeContainer = styled.View`
     align-self: flex-end;
+    margin-top: 20px;
+    margin-bottom: 20px;
 `
 
 const LoginButton = styled(StyledButton)`

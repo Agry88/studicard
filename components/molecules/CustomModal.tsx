@@ -10,31 +10,29 @@ type Props = {
 
 export default function CustomModal(props: Props) {
 
-    const { isVisible, closeModal , children , title } = props;
+    const { isVisible, closeModal, children, title } = props;
     const modalHeight = Dimensions.get('window').height * 45 / 100;
 
     return (
-        <View>
-            <Modal
-                visible={isVisible}
-                transparent={true}
-                onRequestClose={() => closeModal()}
-                animationType={"slide"}
-            >
-                <TouchableWithoutFeedback onPress={() => closeModal()}>
-                    <OutSideModal />
-                </TouchableWithoutFeedback>
+        <Modal
+            visible={isVisible}
+            transparent={true}
+            onRequestClose={() => closeModal()}
+            animationType={"slide"}
+        >
+            <TouchableWithoutFeedback onPress={() => closeModal()}>
+                <OutSideModal />
+            </TouchableWithoutFeedback>
 
-                <ModalContainer style={{ marginTop: modalHeight }}>
-                    <ModalContent>
-                        <ModalTitle>{title}</ModalTitle>
+            <ModalContainer style={{ marginTop: modalHeight }}>
+                <ModalContent>
+                    <ModalTitle>{title}</ModalTitle>
 
-                        {children}
+                    {children}
 
-                    </ModalContent>
-                </ModalContainer>
-            </Modal>
-        </View>
+                </ModalContent>
+            </ModalContainer>
+        </Modal>
     );
 }
 
@@ -55,6 +53,7 @@ const ModalContainer = styled.View`
 `
 
 const ModalContent = styled.View`
+    flex:1;
     padding: 20px 20px;
 `
 
