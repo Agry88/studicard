@@ -9,7 +9,7 @@ type Props = {
     isTextAreaSecure?: boolean;
 }
 
-export default function MyCustomInputBlock1(props: Props) {
+export default function InputBlock(props: Props) {
 
     const { label, propRef } = props;
     const [isTextAreaSecure, setIsTextAreaSecure] = useState(props.isTextAreaSecure ?? false)
