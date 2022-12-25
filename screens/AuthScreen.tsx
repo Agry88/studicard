@@ -15,6 +15,30 @@ export default function AuthScreen() {
     const [isLoginModalVisable, setIsLoginModalVisable] = useState(false)
     const [isSignUpModalVisable, setIsSignUpModalVisable] = useState(false)
 
+    const handleLogin = () => {
+
+        // backend auth logic here
+
+        // close modal
+        setIsLoginModalVisable(false)
+
+        // navigate to main stack
+        navigation.navigate('MainStack')
+    }
+
+    const handleSignUp = () => {
+
+        // backend auth logic here to create user
+
+        // sign up for the user
+
+        // close modal
+        setIsSignUpModalVisable(false)
+        
+        // navigate to main stack
+        navigation.navigate('MainStack')
+    }
+
     return (
         <AuthScreenContainer>
 
@@ -36,12 +60,13 @@ export default function AuthScreen() {
             <LoginModal
                 isVisible={isLoginModalVisable}
                 closeModal={() => setIsLoginModalVisable(prev => !prev)}
-                login={() => navigation.navigate('MainStack')}
+                login={handleLogin}
             />
 
             <SignUpModal
                 isVisible={isSignUpModalVisable}
                 closeModal={() => setIsSignUpModalVisable(prev => !prev)}
+                signUp={handleSignUp}
             />
         </AuthScreenContainer>
     )

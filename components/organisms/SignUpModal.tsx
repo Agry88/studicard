@@ -8,7 +8,8 @@ import CheckBoxWithLabel from '../atoms/CheckboxWithLabel';
 
 type Props = {
     isVisible: boolean,
-    closeModal: () => void
+    closeModal: () => void,
+    signUp: () => void,
 }
 
 export default function SignUpModal(props: Props) {
