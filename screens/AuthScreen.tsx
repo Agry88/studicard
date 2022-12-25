@@ -76,8 +76,8 @@ const TitleText = styled.Text`
 
 const TitleImage = styled.Image`
     position: absolute;
-    width: 250;
-    height: 250;
+    width: 250px;
+    height: 250px;
     resizeMode: contain;
 `
 
