@@ -20,4 +20,9 @@ export type MainStackParams = {
   Setting: undefined;
 };
 
+export type CardInfo = {
+  title: string;
+  questionLength: number;
+  createrName: string;
+}
 
