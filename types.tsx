@@ -27,3 +27,9 @@ export type CardSetInfo = {
   createrName: string;
 }
 
+export type CardSetFocusInfo = {
+  id: string;
+  name: string;
+  focusSeconds: number;
+}
+

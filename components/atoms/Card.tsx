@@ -1,23 +1,29 @@
-import { TouchableHighlight } from 'react-native';
+import { StyleSheet } from 'react-native';
 import styled from "styled-components/native";
 import shadeColor from '../../utils/shadeColor';
 
 type Props = {
-    onPressCallback: () => void;
+    onPressCallback?: () => void;
     children: React.ReactNode;
     cardColor: `#${string}`;
     style?: object;
+    isShadow?: boolean;
 }
 
 export default function Card(props: Props) {
     const { onPressCallback, children, cardColor } = props;
+    const isShadow = props.isShadow ?? false;
     return (
         <CardBorder
-        style={{ backgroundColor: cardColor, ...props.style }}
+            style={{
+                backgroundColor: cardColor,
+                ...(isShadow ? styles.CardShadow : {}),
+                ...props.style
+            }}
         >
             <OnPressConatiner
-            onPress={onPressCallback}
-            underlayColor={shadeColor(cardColor, 100)}
+                onPress={onPressCallback}
+                underlayColor={shadeColor(cardColor, 100)}
             >
                 {children}
             </OnPressConatiner>
@@ -25,9 +31,17 @@ export default function Card(props: Props) {
     );
 }
 
+const styles = StyleSheet.create({
+    CardShadow: {
+        shadowOpacity: 0.5,
+        shadowRadius: 10,
+        shadowColor: 'grey',
+        shadowOffset: { height: 10, width: 10 },
+    }
+})
+
 const CardBorder = styled.View`
     border-radius: 10px;
-    border: 1px solid #000;
     width: 80%;
     height: 100%;
 `
