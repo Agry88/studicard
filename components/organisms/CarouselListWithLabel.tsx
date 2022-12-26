@@ -1,9 +1,9 @@
 import styled from "styled-components/native"
 import CarouselList from "./CarouselList"
-import { CardInfo } from "../../types";
+import { CardSetInfo } from "../../types";
 
 type Props = {
-    data: CardInfo[];
+    data: CardSetInfo[];
     label: string;
     height?: number;
     checkMoreCallBack?: () => void;

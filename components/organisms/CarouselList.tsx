@@ -2,12 +2,12 @@ import * as React from 'react';
 import { Dimensions, Text, View } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import styled from 'styled-components/native';
-import { CardInfo } from "../../types"
-import CarouselCard from '../molecules/CarouselCard';
+import { CardSetInfo } from "../../types"
+import CardsetCard from '../molecules/CardsetCard';
 
 
 type Props = {
-    data: CardInfo[];
+    data: CardSetInfo[];
     height?: number;
 }
 
@@ -25,7 +25,7 @@ export default function CarouselList(props: Props) {
                 scrollAnimationDuration={1000}
                 renderItem={({ index }) => (
                     <CardContainer>
-                        <CarouselCard data={data[index]} onPressCallback={() => console.log("ji") } />
+                        <CardsetCard data={data[index]} onPressCallback={() => console.log("ji") } />
                     </CardContainer>
                 )}
             />

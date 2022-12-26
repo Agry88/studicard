@@ -1,14 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, TextInput, TouchableWithoutFeedback } from "react-native";
 import styled from 'styled-components/native';
 import StudiCardTitle from '../components/atoms/ScreenTitle';
 import { Entypo } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CardSetInfo } from "../types";
+import CardserCardList from '../components/organisms/CardsetCardList';
+import generateUUID from '../utils/generateUUID';
 
 export default function FindScreen() {
 
+    const searchTextInputRef = useRef<TextInput>(null)
     const [search, setSearch] = useState<string>()
+    const [searchResult, setSearchResult] = useState<CardSetInfo[]>([])
     const [searchHistory, setSearchHistory] = useState<string[]>([])
 
 
@@ -26,16 +31,19 @@ export default function FindScreen() {
         getSearchHistory()
     }, [])
 
-
     const handleSearch = async () => {
         try {
             if (!search) return
-            if(searchHistory?.includes(search)) return
+            // Set history
+            if (searchHistory?.includes(search)) return
             const history = await AsyncStorage.getItem('@search_history')
             const c = history ? JSON.parse(history) : []
             c.push(search)
             await AsyncStorage.setItem('@search_history', JSON.stringify(c));
             setSearchHistory(prev => [...prev, search])
+
+            // Search
+            getCardInfoBySearch()
         } catch (e) {
             console.log(e);
         }
@@ -51,43 +59,95 @@ export default function FindScreen() {
         }
     }
 
+    const handleHistoryTextToTextInput = (history: string) => {
+        setSearch(history)
+        searchTextInputRef.current?.focus()
+    }
+
+    const getCardInfoBySearch = async () => {
+        try {
+            // call api
+            const data = [
+                {
+                    id: generateUUID(20),
+                    title: generateUUID(5),
+                    questionLength: 10,
+                    createrName: 'test',
+                },
+            ]
+            setSearchResult(prev => [...prev, ...data])
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     return (
         <FindScreenContainer>
             <StudiCardTitle text="StudiCard" />
             <InputContainer>
-                <Input onBlur={handleSearch} onChangeText={text => setSearch(text)} />
+                <Input value={search} ref={searchTextInputRef} onBlur={handleSearch} onChangeText={text => setSearch(text)} />
                 <TouchableWithoutFeedback onPress={handleSearch}>
                     <Entypo name="magnifying-glass" style={styles.icon} size={24} color="black" />
                 </TouchableWithoutFeedback>
             </InputContainer>
-            <RecordTitle>
-                搜尋紀錄
-            </RecordTitle>
-            <RecordContainer>
-
-                {searchHistory?.map((history,index) => {
-                    return (
-                        <RecordItem key={index}>
-                            <RecordItemTextAndIconContainer>
-                                <AntDesign name="clockcircleo" size={24} color="black" />
-                                <TouchableWithoutFeedback>
-                                    <RecordItemText>
-                                        {history}
-                                    </RecordItemText>
-                                </TouchableWithoutFeedback>
-                            </RecordItemTextAndIconContainer>
-
-                            <RecordItemCloseIconContainer>
-                                <TouchableWithoutFeedback onPress={() => handleRemoveSearchHistory(history)}>
-                                    <AntDesign name="close" size={24} color="black" />
-                                </TouchableWithoutFeedback>
-                            </RecordItemCloseIconContainer>
-                        </RecordItem>
-                    )
-                })}
-
-            </RecordContainer>
+            {searchResult.length === 0 &&
+                <>
+                    <RecordTitle>
+                        搜尋紀錄
+                    </RecordTitle>
+                    <RecordContainer>
+                        {searchHistory?.map((history, index) => {
+                            return (
+                                <RecordItem
+                                    key={index}
+                                    history={history}
+                                    index={index}
+                                    handleRemoveSearchHistory={handleRemoveSearchHistory}
+                                    handleHistoryTextToTextInput={handleHistoryTextToTextInput}
+                                />
+                            )
+                        })}
+                    </RecordContainer>
+                </>
+            }
+            {searchResult.length !== 0 &&
+                <>
+                    <SearchResultTitle>
+                        搜尋結果
+                    </SearchResultTitle>
+                    <CardserCardList
+                        data={searchResult}
+                        handleReachEnd={getCardInfoBySearch}
+                    />
+                </>
+            }
         </FindScreenContainer>
+    );
+}
+
+function RecordItem({ history, index, handleRemoveSearchHistory, handleHistoryTextToTextInput }: {
+    history: string
+    index: number
+    handleRemoveSearchHistory: (history: string) => void
+    handleHistoryTextToTextInput: (history: string) => void
+}) {
+    return (
+        <RecordItemContainer key={index}>
+            <RecordItemTextAndIconContainer>
+                <AntDesign name="clockcircleo" size={24} color="black" />
+                <TouchableWithoutFeedback onPress={() => handleHistoryTextToTextInput(history)}>
+                    <RecordItemText>
+                        {history}
+                    </RecordItemText>
+                </TouchableWithoutFeedback>
+            </RecordItemTextAndIconContainer>
+
+            <RecordItemCloseIconContainer>
+                <TouchableWithoutFeedback onPress={() => handleRemoveSearchHistory(history)}>
+                    <AntDesign name="close" size={24} color="black" />
+                </TouchableWithoutFeedback>
+            </RecordItemCloseIconContainer>
+        </RecordItemContainer>
     );
 }
 
@@ -120,7 +180,7 @@ const RecordTitle = styled.Text`
     color: #8D8C8C;
 `
 
-const RecordItem = styled.View`
+const RecordItemContainer = styled.View`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -148,6 +208,14 @@ const RecordItemTextAndIconContainer = styled.View`
 
 const RecordItemCloseIconContainer = styled.View`
 
+`
+
+const SearchResultTitle = styled.Text`
+    margin-top: 20px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    color: #8D8C8C;
 `
 
 const styles = StyleSheet.create({

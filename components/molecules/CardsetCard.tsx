@@ -1,16 +1,17 @@
 import styled from "styled-components/native";
 import Card from '../atoms/Card';
-import { CardInfo } from "../../types"
+import { CardSetInfo } from "../../types"
 
 type Props = {
-    data: CardInfo;
+    data: CardSetInfo;
     onPressCallback: () => void;
+    style?: object;
 }
 
-export default function CarouselCard(props: Props) {
+export default function CardsetCard(props: Props) {
     const { data, onPressCallback } = props;
     return (
-        <Card cardColor="#fff" onPressCallback={onPressCallback}>
+        <Card style={props?.style} cardColor="#fff" onPressCallback={onPressCallback}>
             <CardContainer>
                 <TitleAndQuestionLengthContainer>
                     <Title>

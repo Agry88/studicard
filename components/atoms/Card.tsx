@@ -6,13 +6,14 @@ type Props = {
     onPressCallback: () => void;
     children: React.ReactNode;
     cardColor: `#${string}`;
+    style?: object;
 }
 
 export default function Card(props: Props) {
     const { onPressCallback, children, cardColor } = props;
     return (
         <CardBorder
-        style={{ backgroundColor: cardColor }}
+        style={{ backgroundColor: cardColor, ...props.style }}
         >
             <OnPressConatiner
             onPress={onPressCallback}
