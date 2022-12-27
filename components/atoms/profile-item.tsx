@@ -10,7 +10,7 @@ export default function ProfileCardList({ data, onPress }: Props) {
     return (
         <ProfileItemContainer>
             {data?.map((item, index) => (
-                <ProfileItem>
+                <ProfileItem key={index}>
                     <ProfileItemLabel>
                         {item}
                     </ProfileItemLabel>

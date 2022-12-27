@@ -33,3 +33,14 @@ export type CardSetFocusInfo = {
   focusSeconds: number;
 }
 
+export type CardSetCompleteInfo = {
+  id: string;
+  name: string;
+  questions: CardSetQuestionInfo[];
+}
+
+export type CardSetQuestionInfo = {
+  id: string;
+  question: string;
+  answer: string;
+}
