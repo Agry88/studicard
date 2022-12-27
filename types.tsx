@@ -6,6 +6,7 @@
 export type RootStackParams = {
   AuthStack: undefined
   MainStack: undefined;
+  ViewCardSet: { cardSetId: string };
 }
 
 export type AuthStackParams = {

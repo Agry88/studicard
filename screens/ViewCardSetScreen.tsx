@@ -1,0 +1,176 @@
+import styled from "styled-components/native"
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { AntDesign } from '@expo/vector-icons';
+import { SimpleLineIcons } from '@expo/vector-icons';
+import { MainStackParams } from "../types";
+import { useNavigation } from "@react-navigation/native";
+import FlipCard from "../components/molecules/FlipCard";
+import Card from "../components/atoms/Card";
+
+export default function ViewCardSetScreen() {
+
+    const navigation = useNavigation<NativeStackNavigationProp<MainStackParams>>()
+
+    return (
+        <ViewCardSetScreenContainer>
+            <ScreenNavigatorContainer>
+
+                <ScreenNavigatorIconContainer>
+                    <ScreenNavigatorButton onPress={() => navigation.goBack()}>
+                        <AntDesign name="arrowleft" size={24} color="#555555" />
+                    </ScreenNavigatorButton>
+                </ScreenNavigatorIconContainer>
+
+                <ScreenTitle>
+                    卡片冊
+                </ScreenTitle>
+
+                <ScreenNavigatorIconContainer>
+                    <ScreenNavigatorButton>
+                        <SimpleLineIcons name="options-vertical" size={24} color="#555555" />
+                    </ScreenNavigatorButton>
+                </ScreenNavigatorIconContainer>
+
+            </ScreenNavigatorContainer>
+
+
+            <CardCarouselContainer>
+                <FlipCard />
+            </CardCarouselContainer>
+
+
+            <Label>
+                卡片
+            </Label>
+
+            <QuestionCardsList>
+                <QuestionCard question="question here" answer="answer here" />
+                <QuestionCard question="question here" answer="answer here" />
+                <QuestionCard question="question here" answer="answer here" />
+            </QuestionCardsList>
+
+        </ViewCardSetScreenContainer>
+    )
+
+}
+
+function QuestionCard(props: {
+    question: string,
+    answer: string
+}) {
+    return (
+        <Card style={{
+            padding: 10,
+            width: "90%",
+            height: 150,
+            marginBottom: 10,
+            marginTop: 10,
+            flexDirection: "column"
+        }}>
+            <>
+                <QuestionCardItem style={{ borderBottomColor: "#9C9C9C", borderBottomWidth: 1, marginBottom:10 }}>
+                    <QuestionCardSmallLabel>
+                        正面
+                    </QuestionCardSmallLabel>
+                    <QuestionCardLabelContainer>
+                        <QuestionCardMediumLabel>
+                            {props.question}
+                        </QuestionCardMediumLabel>
+                    </QuestionCardLabelContainer>
+                </QuestionCardItem>
+
+                <QuestionCardItem>
+                    <QuestionCardSmallLabel>
+                        反面
+                    </QuestionCardSmallLabel>
+                    <QuestionCardLabelContainer>
+                        <QuestionCardMediumLabel>
+                            {props.answer}
+                        </QuestionCardMediumLabel>
+                    </QuestionCardLabelContainer>
+                </QuestionCardItem>
+            </>
+        </Card>
+    )
+
+}
+
+const ViewCardSetScreenContainer = styled.ScrollView`
+    flex: 1;
+    flex-direction: column;
+    margin: 80px 20px 0px 20px;
+`
+
+const ScreenNavigatorContainer = styled.View`
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+`
+
+const ScreenNavigatorButton = styled.TouchableWithoutFeedback`
+    width: 100%;
+    height: 100%;
+`
+
+const ScreenNavigatorIconContainer = styled.View`
+    width: 40px;
+    height: 40px;
+`
+
+const ScreenTitle = styled.Text`
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 32px;
+    color: #555555;
+`
+
+const CardCarouselContainer = styled.View`
+    width: 100%;
+    margin-bottom: 80px;
+`
+
+const Label = styled.Text`
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 28px;
+    color: #555555;
+`
+
+const QuestionCardsList = styled.View`
+    align-items: center;
+    width: 100%;
+`
+
+const QuestionCardLabelContainer = styled.View`
+    flex: 1;
+    justify-content: center;
+`
+
+const QuestionCardSmallLabel = styled.Text`
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #555555;
+`
+
+const QuestionCardMediumLabel = styled.Text`
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    color: #555555;
+`
+
+const QuestionCardItem = styled.View`
+    flex: 1
+    flex-direction: row;
+    justify-content: space-between;
+`

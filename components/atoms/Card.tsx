@@ -5,14 +5,15 @@ import shadeColor from '../../utils/shadeColor';
 type Props = {
     onPressCallback?: () => void;
     children: React.ReactNode;
-    cardColor: `#${string}`;
+    cardColor?: `#${string}`;
     style?: object;
     isShadow?: boolean;
 }
 
 export default function Card(props: Props) {
-    const { onPressCallback, children, cardColor } = props;
+    const { onPressCallback, children } = props;
     const isShadow = props.isShadow ?? false;
+    const cardColor = props.cardColor ?? "#fff";
     return (
         <CardBorder
             style={{

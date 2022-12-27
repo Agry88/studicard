@@ -1,8 +1,8 @@
-import { FlatList } from 'react-native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import styled from "styled-components/native"
-import { CardSetInfo } from "../../types";
+import { CardSetInfo, RootStackParams } from "../../types";
 import CardsetCard from '../molecules/CardsetCard';
-import generateUUID from '../../utils/generateUUID';
+import { useNavigation } from '@react-navigation/native';
 
 type Prop = {
     data: CardSetInfo[];
@@ -11,8 +11,10 @@ type Prop = {
 
 export default function CardserCardList({ data, handleReachEnd }: Prop) {
 
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParams>>()
+    
     const handleSearchCardWithId = (id: string) => {
-        // Get 
+        navigation.navigate("ViewCardSet", { cardSetId:id })
     }
 
     const isItemCardSetInfo = (item: unknown): item is CardSetInfo => {
