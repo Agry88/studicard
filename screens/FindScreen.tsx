@@ -35,10 +35,11 @@ export default function FindScreen() {
         try {
             if (!search) return
             // Set history
-            if (searchHistory?.includes(search)) return
             const history = await AsyncStorage.getItem('@search_history')
             const c = history ? JSON.parse(history) : []
-            c.push(search)
+            if (!(history && c.includes(search))) {
+                c.push(search)
+            }
             await AsyncStorage.setItem('@search_history', JSON.stringify(c));
             setSearchHistory(prev => [...prev, search])
 
@@ -62,6 +63,7 @@ export default function FindScreen() {
     const handleHistoryTextToTextInput = (history: string) => {
         setSearch(history)
         searchTextInputRef.current?.focus()
+        searchTextInputRef.current?.blur()
     }
 
     const getCardInfoBySearch = async () => {
