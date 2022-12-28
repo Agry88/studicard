@@ -22,12 +22,14 @@ export default function Card(props: Props) {
                 ...props.style
             }}
         >
-            <OnPressConatiner
-                onPress={onPressCallback}
-                underlayColor={shadeColor(cardColor, 100)}
-            >
-                {children}
-            </OnPressConatiner>
+            {onPressCallback === undefined ? children :
+                <OnPressConatiner
+                    onPress={onPressCallback}
+                    underlayColor={shadeColor(cardColor, 100)}
+                >
+                    {children}
+                </OnPressConatiner>
+            }
         </CardBorder>
     );
 }

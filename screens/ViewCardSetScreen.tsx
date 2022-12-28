@@ -4,12 +4,47 @@ import { AntDesign } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { MainStackParams } from "../types";
 import { useNavigation } from "@react-navigation/native";
-import FlipCard from "../components/molecules/FlipCard";
 import Card from "../components/atoms/Card";
+import FlipCardCarousel from "../components/organisms/FlipCardCarousel";
+import { CardSetCompleteInfo } from "../types"
+import { useEffect, useState } from "react";
+import { Dimensions } from "react-native";
 
-export default function ViewCardSetScreen() {
+export default function ViewCardSetScreen({ cardset_id }: { cardset_id: string }) {
 
     const navigation = useNavigation<NativeStackNavigationProp<MainStackParams>>()
+
+    const [cardSetData, setCardSetData] = useState<CardSetCompleteInfo>()
+
+    // init data using cardset_id
+    useEffect(() => {
+        const data: CardSetCompleteInfo = {
+            id: "1",
+            name: "卡片側名稱",
+            questions: [
+                {
+                    id: "1",
+                    question: "question here",
+                    answer: "answer here"
+                },
+                {
+                    id: "2",
+                    question: "question here2",
+                    answer: "answer here2"
+                },
+                {
+                    id: "3",
+                    question: "question here3",
+                    answer: "answer here3"
+                },
+            ]
+        }
+
+        setCardSetData(data)
+
+    }, [])
+
+
 
     return (
         <ViewCardSetScreenContainer>
@@ -35,7 +70,16 @@ export default function ViewCardSetScreen() {
 
 
             <CardCarouselContainer>
-                <FlipCard />
+
+                {cardSetData &&
+                    (
+                        <FlipCardCarousel
+                            width={Dimensions.get("screen").width - 20}
+                            height={220}
+                            data={cardSetData?.questions} />
+                    )
+                }
+
             </CardCarouselContainer>
 
 
@@ -44,9 +88,16 @@ export default function ViewCardSetScreen() {
             </Label>
 
             <QuestionCardsList>
-                <QuestionCard question="question here" answer="answer here" />
-                <QuestionCard question="question here" answer="answer here" />
-                <QuestionCard question="question here" answer="answer here" />
+
+                {cardSetData?.questions.map((questions) => {
+                    return (
+                        <QuestionCard
+                            question={questions.question}
+                            answer={questions.answer}
+                        />
+
+                    )
+                })}
             </QuestionCardsList>
 
         </ViewCardSetScreenContainer>
@@ -68,7 +119,7 @@ function QuestionCard(props: {
             flexDirection: "column"
         }}>
             <>
-                <QuestionCardItem style={{ borderBottomColor: "#9C9C9C", borderBottomWidth: 1, marginBottom:10 }}>
+                <QuestionCardItem style={{ borderBottomColor: "#9C9C9C", borderBottomWidth: 1, marginBottom: 10 }}>
                     <QuestionCardSmallLabel>
                         正面
                     </QuestionCardSmallLabel>
