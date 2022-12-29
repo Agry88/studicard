@@ -9,7 +9,7 @@ import LoginModal from './../components/organisms/LoginModal';
 import SignUpModal from './../components/organisms/SignUpModal';
 
 export default function AuthScreen() {
-    
+
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParams>>()
 
     const [isLoginModalVisable, setIsLoginModalVisable] = useState(false)
@@ -22,19 +22,6 @@ export default function AuthScreen() {
         // close modal
         setIsLoginModalVisable(false)
 
-        // navigate to main stack
-        navigation.navigate('MainStack')
-    }
-
-    const handleSignUp = () => {
-
-        // backend auth logic here to create user
-
-        // sign up for the user
-
-        // close modal
-        setIsSignUpModalVisable(false)
-        
         // navigate to main stack
         navigation.navigate('MainStack')
     }
@@ -59,14 +46,12 @@ export default function AuthScreen() {
             </ButtonsContainer>
             <LoginModal
                 isVisible={isLoginModalVisable}
-                closeModal={() => setIsLoginModalVisable(prev => !prev)}
-                login={handleLogin}
+                closeModal={() => setIsLoginModalVisable(false)}
             />
 
             <SignUpModal
                 isVisible={isSignUpModalVisable}
-                closeModal={() => setIsSignUpModalVisable(prev => !prev)}
-                signUp={handleSignUp}
+                closeModal={() => setIsSignUpModalVisable(false)}
             />
         </AuthScreenContainer>
     )
