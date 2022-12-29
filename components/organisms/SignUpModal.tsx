@@ -9,7 +9,7 @@ import CheckBoxWithLabel from '../atoms/CheckboxWithLabel';
 type Props = {
     isVisible: boolean,
     closeModal: () => void,
-    signUp: () => void,
+    signUp: (account_name: string,password: string, email: string) => void,
 }
 
 export default function SignUpModal(props: Props) {
@@ -65,12 +65,13 @@ export default function SignUpModal(props: Props) {
     );
 }
 
-const InputsContainer = styled.View`
+const InputsContainer = styled.KeyboardAvoidingView`
     flex: 1;
     gap: 20px;
-    margin-top: 20px;
+    margin-top: 10px;
 `
 
 const PolicyContainer = styled.View`
     align-self: flex-start;
+    margin-bottom: 10px;
 `

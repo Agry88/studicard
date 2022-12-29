@@ -53,7 +53,7 @@ const InputContainer = styled.View`
     height: 60px;
     background: rgba(192, 203, 200, 0.5);
     border-radius: 9px;
-    margin-top: 10px;
+    margin-top: 5px;
 `
 
 const Input = styled.TextInput`
@@ -63,8 +63,8 @@ const Input = styled.TextInput`
 `
 
 const Container = styled.View`
-    margin-top: 10px;
-    margin-bottom: 10px
+    margin-top: 5px;
+    margin-bottom: 5px
 `
 
 const styles = StyleSheet.create({
