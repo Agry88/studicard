@@ -1,5 +1,6 @@
 import styled from "styled-components/native"
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { NativeStackNavigationProp, } from '@react-navigation/native-stack';
+import type { RouteProp } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { RootStackParams } from "../types";
@@ -12,13 +13,15 @@ import { Dimensions } from "react-native";
 
 type Props = {
     navigation: NativeStackNavigationProp<RootStackParams, "ViewCardSet">;
+    route: RouteProp<RootStackParams, "ViewCardSet">;
 }
 
-export default function ViewCardSetScreen({ navigation }: Props) {
+export default function ViewCardSetScreen({ route, navigation }: Props) {
     const [cardSetData, setCardSetData] = useState<CardSetCompleteInfo>()
-
+    
     // init data using cardset_id
     useEffect(() => {
+        const cardsetId = route.params.cardSetId
         const data: CardSetCompleteInfo = {
             id: "1",
             name: "卡片側名稱",
