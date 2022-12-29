@@ -20,7 +20,11 @@ export default function CardserCardList({ data, handleReachEnd }: Prop) {
     const isItemCardSetInfo = (item: unknown): item is CardSetInfo => {
         if (typeof item === "object" && item !== null) {
             const { id, title, questionLength, createrName } = item as CardSetInfo;
-            if (typeof id === "string" && typeof title === "string" && typeof questionLength === "number" && typeof createrName === "string") {
+        
+            if (typeof id === "number" &&
+             typeof title === "string" &&
+              typeof questionLength === "number" &&
+               typeof createrName === "string") {
                 return true;
             }
         }
@@ -36,10 +40,10 @@ export default function CardserCardList({ data, handleReachEnd }: Prop) {
                 renderItem={({ item }) => {
                     if (!isItemCardSetInfo(item)) return null
                     return (
-                        <CardContainer>
+                        <CardContainer key={item.id}>
                             <CardsetCard
                                 data={item}
-                                onPressCallback={() => handleSearchCardWithId(item.id)}
+                                onPressCallback={() => handleSearchCardWithId(item.id.toString())}
                             />
                         </CardContainer>
                     )

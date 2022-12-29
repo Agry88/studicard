@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { StyleSheet, TextInput, TouchableWithoutFeedback } from "react-native";
+import { StyleSheet, Text, TextInput, TouchableWithoutFeedback } from "react-native";
 import styled from 'styled-components/native';
 import StudiCardTitle from '../components/atoms/ScreenTitle';
 import { Entypo } from '@expo/vector-icons';
@@ -7,15 +7,16 @@ import { AntDesign } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CardSetInfo } from "../types";
 import CardserCardList from '../components/organisms/CardsetCardList';
-import generateUUID from '../utils/generateUUID';
+import { BACKEND_URL } from '@env';
+import { showMessage } from "react-native-flash-message"
 
 export default function FindScreen() {
 
     const searchTextInputRef = useRef<TextInput>(null)
-    const [search, setSearch] = useState<string>()
+    const [search, setSearch] = useState<string>("")
     const [searchResult, setSearchResult] = useState<CardSetInfo[]>([])
     const [searchHistory, setSearchHistory] = useState<string[]>([])
-
+    const [page, setpage] = useState(0)
 
     // Get search history
     useEffect(() => {
@@ -33,7 +34,7 @@ export default function FindScreen() {
 
     const handleSearch = async () => {
         try {
-            if (!search) return
+            if (search === "") return
             // Set history
             const history = await AsyncStorage.getItem('@search_history')
             const c = history ? JSON.parse(history) : []
@@ -44,7 +45,7 @@ export default function FindScreen() {
             setSearchHistory(prev => [...prev, search])
 
             // Search
-            getCardInfoBySearch()
+            await getCardInfoBySearch()
         } catch (e) {
             console.log(e);
         }
@@ -67,16 +68,35 @@ export default function FindScreen() {
     }
 
     const getCardInfoBySearch = async () => {
+        const newpage = page + 1
+        setpage(newpage)
         try {
             // call api
-            const data = [
-                {
-                    id: generateUUID(20),
-                    title: generateUUID(5),
-                    questionLength: 10,
-                    createrName: 'test',
-                },
-            ]
+            const token = await AsyncStorage.getItem("@token")
+            const res = await fetch(`${BACKEND_URL}/api/cardset/getbysearch/${newpage}${search === "" ? "" : `/${search}`}`,{
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": `${token}`,
+                }
+            })            
+            
+            if (res.status !== 200) {
+                const message = await res.json();
+                console.warn(res.status);
+                console.warn(message);
+                showMessage({
+                    type: "danger",
+                    message: "取得卡片集失敗"
+                })
+                return
+            }
+
+            const data: CardSetInfo[] = await res.json()
+
+            if( data.length === 0 ) setpage(newpage - 1)
+            
+
             setSearchResult(prev => [...prev, ...data])
         } catch (e) {
             console.log(e);

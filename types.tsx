@@ -22,7 +22,7 @@ export type MainStackParams = {
 };
 
 export type CardSetInfo = {
-  id: string;
+  id: number;
   title: string;
   questionLength: number;
   createrName: string;

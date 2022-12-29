@@ -11,7 +11,7 @@ type Props = {
 export default function CardsetCard(props: Props) {
     const { data, onPressCallback } = props;
     return (
-        <Card style={props?.style} cardColor="#fff" onPressCallback={onPressCallback}>
+        <Card style={props?.style} cardColor="#fff" isShadow onPressCallback={onPressCallback}>
             <CardContainer>
                 <TitleAndQuestionLengthContainer>
                     <Title>
