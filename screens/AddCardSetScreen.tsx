@@ -27,7 +27,7 @@ export default function AddCardSetScreen({ navigation, route }: Props) {
         updateCardsetTitleBackendOnBlur,
         updateCardsetQuestionAndAnswerFrontendOnChange,
         updateCardsetQuestionAndAnswerBackendOnBlur
-    } = useCardSetData(route.params.cardSetId)
+    } = useCardSetData(route.params?.cardSetId ?? undefined)
 
 
 

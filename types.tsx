@@ -16,7 +16,7 @@ export type AuthStackParams = {
 export type MainStackParams = {
   Home: undefined;
   Find: undefined;
-  AddCardSet:  { cardSetId: string };
+  AddCardSet:  { cardSetId: string } | undefined;
   Analyze: undefined;
   Setting: undefined;
 };

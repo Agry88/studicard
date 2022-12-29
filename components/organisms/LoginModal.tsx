@@ -43,6 +43,8 @@ export default function LoginModal(props: Props) {
                 type: "warning",
                 message: "登入失敗,請重新再試"
             })
+            const message = await signInRes.json()
+            console.warn(message);
             return
         }
 
