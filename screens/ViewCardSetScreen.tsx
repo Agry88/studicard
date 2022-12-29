@@ -33,13 +33,41 @@ export default function ViewCardSetScreen({ route, navigation }: Props) {
         })
     }
 
-    const handleDeleteCardSet = () => {
+    const handleDeleteCardSet = async () => {
         if (!cardSetData?.id) return
 
-        // Call api to delete the card set
+        try {
+            const token = await AsyncStorage.getItem("@token")
+            const res = await fetch(`${BACKEND_URL}/api/cardset/delete`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `${token}`
+                },
+                body: JSON.stringify({
+                    cardset_id: cardSetData.id
+                })
+            })
 
-        setMenuVisible(false)
-        mainNavigation.navigate("Home")
+            if (res.status !== 200) {
+                showMessage({
+                    type: "danger",
+                    message: "刪除失敗"
+                })
+            }
+
+            showMessage({
+                type: "success",
+                message: "刪除成功"
+            })
+
+            navigation.goBack()
+        } catch (e) {
+            console.log(e)
+        } finally {
+            setMenuVisible(false)
+        }
+
     }
 
     // init data using cardset_id
@@ -49,7 +77,7 @@ export default function ViewCardSetScreen({ route, navigation }: Props) {
         const fetchCardSetData = async () => {
             try {
                 const token = await AsyncStorage.getItem("@token")
-                const res = await fetch(`${BACKEND_URL}/api/cardset/getcard/${cardsetId}`,{
+                const res = await fetch(`${BACKEND_URL}/api/cardset/getcard/${cardsetId}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
