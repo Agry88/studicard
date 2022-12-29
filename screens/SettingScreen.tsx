@@ -3,8 +3,16 @@ import StudiCardTitle from "../components/atoms/ScreenTitle";
 import { StyleSheet } from "react-native";
 import Card from "../components/atoms/Card";
 import ProfileCardList from "../components/atoms/profile-item";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParams } from "../types";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { showMessage } from "react-native-flash-message";
 
 export default function SettingScreen() {
+
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParams>>()
+
     return (
         <SettingScreenContainer>
             <StudiCardTitle text="StudiCard" />
@@ -16,7 +24,18 @@ export default function SettingScreen() {
                 cardColor="#fff"
                 isShadow={true}
             >
-                <ProfileCardList data={["個人資料", "更改密碼"]} onPress={() => console.log("test")} />
+                <ProfileCardList
+                    data={[
+                        {
+                            text: "個人資料",
+                            onPress: () => console.log("navigation")
+                        },
+                        {
+                            text: "更改密碼",
+                            onPress: () => console.log("navigation")
+                        }
+                    ]}
+                />
             </Card>
             <CardLabel>
                 關於系統
@@ -26,7 +45,33 @@ export default function SettingScreen() {
                 cardColor="#fff"
                 isShadow={true}
             >
-                <ProfileCardList data={["學習提醒", "深色模式", "給予好評"]} onPress={() => console.log("test")} />
+                <ProfileCardList
+                    data={[
+                        {
+                            text: "學習提醒",
+                            onPress: () => console.log("navigation")
+                        },
+                        {
+                            text: "深色模式",
+                            onPress: () => console.log("navigation")
+                        },
+                        {
+                            text: "給予好評",
+                            onPress: () => console.log("navigation")
+                        },
+                        {
+                            text: "登出",
+                            onPress: async () => {
+                                navigation.navigate("AuthStack")
+                                await AsyncStorage.removeItem("@token")
+                                showMessage({
+                                    type: "success",
+                                    message: "登出成功"
+                                })
+                            }
+                        },
+                    ]}
+                />
             </Card>
         </SettingScreenContainer>
     );
