@@ -45,6 +45,7 @@ export default function ViewCardSetScreen({ route, navigation }: Props) {
         const data: CardSetCompleteInfo = {
             id: "1",
             name: "卡片側名稱",
+            isEditable: false,
             questions: [
                 {
                     id: "1",
@@ -85,18 +86,20 @@ export default function ViewCardSetScreen({ route, navigation }: Props) {
                 </ScreenTitle>
 
                 <ScreenNavigatorIconContainer>
-                    <ScreenNavigatorButton onPress={() => setMenuVisible(true)}>
-                        <SimpleLineIcons name="options-vertical" size={24} color="#555555">
-                            <Menu
-                                visible={menuVisible}
-                                onRequestClose={() => setMenuVisible(false)}
-                            >
-                                <MenuItem onPress={() => navigateToEditCardSet()}>編輯卡片集</MenuItem>
-                                <MenuDivider />
-                                <MenuItem onPress={() => handleDeleteCardSet()}>刪除卡片集</MenuItem>
-                            </Menu>
-                        </SimpleLineIcons>
-                    </ScreenNavigatorButton>
+                    {cardSetData?.isEditable && (
+                        <ScreenNavigatorButton onPress={() => setMenuVisible(true)}>
+                            <SimpleLineIcons name="options-vertical" size={24} color="#555555">
+                                <Menu
+                                    visible={menuVisible}
+                                    onRequestClose={() => setMenuVisible(false)}
+                                >
+                                    <MenuItem onPress={() => navigateToEditCardSet()}>編輯卡片集</MenuItem>
+                                    <MenuDivider />
+                                    <MenuItem onPress={() => handleDeleteCardSet()}>刪除卡片集</MenuItem>
+                                </Menu>
+                            </SimpleLineIcons>
+                        </ScreenNavigatorButton>
+                    )}
                 </ScreenNavigatorIconContainer>
 
             </ScreenNavigatorContainer>

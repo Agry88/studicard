@@ -38,6 +38,7 @@ export type CardSetCompleteInfo = {
   id: string;
   name: string;
   questions: CardSetQuestionInfo[];
+  isEditable: boolean;
 }
 
 export type CardSetQuestionInfo = {
