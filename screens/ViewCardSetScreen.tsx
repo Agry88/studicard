@@ -10,6 +10,9 @@ import { CardSetCompleteInfo } from "../types"
 import { useEffect, useState } from "react";
 import { Dimensions } from "react-native";
 import { Menu, MenuItem, MenuDivider } from 'react-native-material-menu';
+import { BACKEND_URL } from "@env";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { showMessage } from "react-native-flash-message"
 
 
 type Props = {
@@ -42,31 +45,37 @@ export default function ViewCardSetScreen({ route, navigation }: Props) {
     // init data using cardset_id
     useEffect(() => {
         const cardsetId = route.params.cardSetId
-        const data: CardSetCompleteInfo = {
-            id: "1",
-            name: "卡片側名稱",
-            isEditable: false,
-            questions: [
-                {
-                    id: "1",
-                    question: "question here",
-                    answer: "answer here"
-                },
-                {
-                    id: "2",
-                    question: "question here2",
-                    answer: "answer here2"
-                },
-                {
-                    id: "3",
-                    question: "question here3",
-                    answer: "answer here3"
-                },
-            ]
+
+        const fetchCardSetData = async () => {
+            try {
+                const token = await AsyncStorage.getItem("@token")
+                const res = await fetch(`${BACKEND_URL}/api/cardset/getcard/${cardsetId}`,{
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `${token}`
+                    }
+                })
+
+                if (res.status !== 200) {
+                    showMessage({
+                        type: "danger",
+                        message: "取得資料失敗"
+                    })
+                    navigation.goBack()
+                }
+
+                const data = await res.json()
+
+                console.log(data);
+
+                setCardSetData(data)
+            } catch (e) {
+                console.log(e)
+            }
         }
 
-        setCardSetData(data)
-
+        fetchCardSetData()
     }, [])
 
 

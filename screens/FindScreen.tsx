@@ -35,6 +35,10 @@ export default function FindScreen() {
     const handleSearch = async () => {
         try {
             if (search === "") return
+            // clear side effect
+            setpage(0)
+            setSearchResult([])
+
             // Set history
             const history = await AsyncStorage.getItem('@search_history')
             const c = history ? JSON.parse(history) : []
@@ -69,7 +73,7 @@ export default function FindScreen() {
 
     const getCardInfoBySearch = async () => {
         const newpage = page + 1
-        setpage(newpage)
+        setpage(prev => prev + 1)
         try {
             // call api
             const token = await AsyncStorage.getItem("@token")
@@ -92,9 +96,13 @@ export default function FindScreen() {
                 return
             }
 
+            
+            
             const data: CardSetInfo[] = await res.json()
-
-            if( data.length === 0 ) setpage(newpage - 1)
+            console.log("search successful");
+            console.log(data);
+            
+            if( data.length === 0 ) setpage(page - 1)
             
 
             setSearchResult(prev => [...prev, ...data])
@@ -107,8 +115,8 @@ export default function FindScreen() {
         <FindScreenContainer>
             <StudiCardTitle text="StudiCard" />
             <InputContainer>
-                <Input value={search} ref={searchTextInputRef} onBlur={handleSearch} onChangeText={text => setSearch(text)} />
-                <TouchableWithoutFeedback onPress={handleSearch}>
+                <Input value={search} ref={searchTextInputRef} onBlur={() => handleSearch()} onChangeText={text => setSearch(text)} />
+                <TouchableWithoutFeedback onPress={() => handleSearch()}>
                     <Entypo name="magnifying-glass" style={styles.icon} size={24} color="black" />
                 </TouchableWithoutFeedback>
             </InputContainer>
