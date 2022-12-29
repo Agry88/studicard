@@ -100,7 +100,7 @@ export default function LoginModal(props: Props) {
                 />
             </RememberMeContainer>
 
-            <LoginButton text="Login" cb={() => signIn()} />
+            <LoginButton text="Login" cb={signIn} />
 
         </CustomModal>
 

@@ -140,9 +140,7 @@ export default function SignUpModal(props: Props) {
                         />
                     </PolicyContainer>
 
-                    <StyledButton text="Create Account" cb={() => {
-                        handleSignUp()
-                    }}
+                    <StyledButton text="Create Account" cb={handleSignUp}
                     />
 
                 </InputsContainer>
