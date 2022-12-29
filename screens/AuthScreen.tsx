@@ -10,21 +10,8 @@ import SignUpModal from './../components/organisms/SignUpModal';
 
 export default function AuthScreen() {
 
-    const navigation = useNavigation<NativeStackNavigationProp<RootStackParams>>()
-
     const [isLoginModalVisable, setIsLoginModalVisable] = useState(false)
     const [isSignUpModalVisable, setIsSignUpModalVisable] = useState(false)
-
-    const handleLogin = () => {
-
-        // backend auth logic here
-
-        // close modal
-        setIsLoginModalVisable(false)
-
-        // navigate to main stack
-        navigation.navigate('MainStack')
-    }
 
     return (
         <AuthScreenContainer>
