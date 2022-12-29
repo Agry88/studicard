@@ -32,7 +32,7 @@ export default function FlipCard({ fontStyle, textString, height }: Props) {
 
 const CardContainer = styled.View`
     flex: 1;
-    width: 300;
+    width: 300px;
     height: 100%;
     justify-content: center;
     align-items: center;
