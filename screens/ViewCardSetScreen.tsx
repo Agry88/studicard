@@ -1,14 +1,15 @@
 import styled from "styled-components/native"
-import { NativeStackNavigationProp, } from '@react-navigation/native-stack';
-import type { RouteProp } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RouteProp, useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
-import { RootStackParams } from "../types";
+import { MainStackParams, RootStackParams } from "../types";
 import Card from "../components/atoms/Card";
 import FlipCardCarousel from "../components/organisms/FlipCardCarousel";
 import { CardSetCompleteInfo } from "../types"
 import { useEffect, useState } from "react";
 import { Dimensions } from "react-native";
+import { Menu, MenuItem, MenuDivider } from 'react-native-material-menu';
 
 
 type Props = {
@@ -18,7 +19,26 @@ type Props = {
 
 export default function ViewCardSetScreen({ route, navigation }: Props) {
     const [cardSetData, setCardSetData] = useState<CardSetCompleteInfo>()
-    
+    const [menuVisible, setMenuVisible] = useState(false);
+    const mainNavigation = useNavigation<NativeStackNavigationProp<MainStackParams>>()
+
+    const navigateToEditCardSet = () => {
+        if (!cardSetData?.id) return
+        setMenuVisible(false)
+        mainNavigation.navigate("AddCardSet", {
+            cardSetId: cardSetData.id
+        })
+    }
+
+    const handleDeleteCardSet = () => {
+        if (!cardSetData?.id) return
+
+        // Call api to delete the card set
+
+        setMenuVisible(false)
+        mainNavigation.navigate("Home")
+    }
+
     // init data using cardset_id
     useEffect(() => {
         const cardsetId = route.params.cardSetId
@@ -65,8 +85,17 @@ export default function ViewCardSetScreen({ route, navigation }: Props) {
                 </ScreenTitle>
 
                 <ScreenNavigatorIconContainer>
-                    <ScreenNavigatorButton>
-                        <SimpleLineIcons name="options-vertical" size={24} color="#555555" />
+                    <ScreenNavigatorButton onPress={() => setMenuVisible(true)}>
+                        <SimpleLineIcons name="options-vertical" size={24} color="#555555">
+                            <Menu
+                                visible={menuVisible}
+                                onRequestClose={() => setMenuVisible(false)}
+                            >
+                                <MenuItem onPress={() => navigateToEditCardSet()}>編輯卡片集</MenuItem>
+                                <MenuDivider />
+                                <MenuItem onPress={() => handleDeleteCardSet()}>刪除卡片集</MenuItem>
+                            </Menu>
+                        </SimpleLineIcons>
                     </ScreenNavigatorButton>
                 </ScreenNavigatorIconContainer>
 
