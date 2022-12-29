@@ -1,3 +1,6 @@
+import { MainStackParams } from './../types';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
 import { showMessage } from 'react-native-flash-message';
 import { useEffect, useMemo } from 'react';
 import { useState } from 'react';
@@ -7,6 +10,9 @@ import { BACKEND_URL } from '@env'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function useCardSetData(propCardsetId: undefined | string) {
+    
+    const navigation = useNavigation<NativeStackNavigationProp<MainStackParams,"AddCardSet">>()
+
     const [cardsetData, setCardsetData] = useState<CardSetCompleteInfo>()
     const [index, setIndex] = useState<number>(0)
     const cardData = cardsetData?.questions[index]
@@ -52,8 +58,21 @@ function useCardSetData(propCardsetId: undefined | string) {
                     cardset_title: "new Card Set Title"
                 })
             })
+
+            
             if (res.status !== 200) {
-                throw new Error("Failed to create new card set")
+
+                const errorMessage = await res.json()
+
+                showMessage({
+                    type: "danger",
+                    message: "創建卡片冊失敗,請重新再來"
+                })
+                navigation.goBack()
+
+                console.warn("Create cardset Failed");
+                console.warn(errorMessage);
+                
             }
 
             const json: {
