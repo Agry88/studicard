@@ -18,7 +18,7 @@ const RootStack = createNativeStackNavigator<RootStackParams>();
 function RootNavigator() {
   return (
     <RootStack.Navigator
-    initialRouteName='ViewCardSet'
+    initialRouteName='AuthStack'
     screenOptions={{
       headerShown: false,
   }}

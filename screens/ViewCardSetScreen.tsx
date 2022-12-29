@@ -2,18 +2,19 @@ import styled from "styled-components/native"
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AntDesign } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
-import { MainStackParams } from "../types";
-import { useNavigation } from "@react-navigation/native";
+import { RootStackParams } from "../types";
 import Card from "../components/atoms/Card";
 import FlipCardCarousel from "../components/organisms/FlipCardCarousel";
 import { CardSetCompleteInfo } from "../types"
 import { useEffect, useState } from "react";
 import { Dimensions } from "react-native";
 
-export default function ViewCardSetScreen({ cardset_id }: { cardset_id: string }) {
 
-    const navigation = useNavigation<NativeStackNavigationProp<MainStackParams>>()
+type Props = {
+    navigation: NativeStackNavigationProp<RootStackParams, "ViewCardSet">;
+}
 
+export default function ViewCardSetScreen({ navigation }: Props) {
     const [cardSetData, setCardSetData] = useState<CardSetCompleteInfo>()
 
     // init data using cardset_id
@@ -94,6 +95,7 @@ export default function ViewCardSetScreen({ cardset_id }: { cardset_id: string }
                         <QuestionCard
                             question={questions.question}
                             answer={questions.answer}
+                            key={questions.id}
                         />
 
                     )
