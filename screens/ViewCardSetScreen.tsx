@@ -26,7 +26,7 @@ export default function ViewCardSetScreen({ route, navigation }: Props) {
     const [menuVisible, setMenuVisible] = useState(false);
     const mainNavigation = useNavigation<NativeStackNavigationProp<MainStackParams>>()
     const isFocused = useIsFocused();
-    
+
 
     const navigateToEditCardSet = () => {
         if (!cardSetData?.id) return
@@ -75,7 +75,7 @@ export default function ViewCardSetScreen({ route, navigation }: Props) {
 
     // init data using cardset_id
     useEffect(() => {
-        if(!isFocused) return
+        if (!isFocused) return
         const cardsetId = route.params.cardSetId
 
         const fetchCardSetData = async () => {
@@ -118,7 +118,10 @@ export default function ViewCardSetScreen({ route, navigation }: Props) {
             <ScreenNavigatorContainer>
 
                 <ScreenNavigatorIconContainer>
-                    <ScreenNavigatorButton onPress={() => navigation.goBack()}>
+                    <ScreenNavigatorButton onPress={() => {
+                        mainNavigation.navigate("Home")
+                    }}
+                    >
                         <AntDesign name="arrowleft" size={24} color="#555555" />
                     </ScreenNavigatorButton>
                 </ScreenNavigatorIconContainer>
