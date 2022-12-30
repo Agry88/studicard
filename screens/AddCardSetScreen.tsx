@@ -151,7 +151,7 @@ const FinishedButtonLabel = styled.Text`
 `
 
 
-const AddCardSetScreenContainer = styled.View`
+const AddCardSetScreenContainer = styled.ScrollView`
     flex: 1;
     flex-direction: column;
     margin: 80px 20px 0px 20px;
