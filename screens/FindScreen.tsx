@@ -53,7 +53,7 @@ export default function FindScreen() {
             setSearchHistory(prev => [...prev, search])
 
             // Search
-            await getCardInfoBySearch()
+            await getCardInfoBySearch(0)
         } catch (e) {
             console.log(e);
         }
@@ -75,11 +75,14 @@ export default function FindScreen() {
         searchTextInputRef.current?.blur()
     }
 
-    const getCardInfoBySearch = async () => {
-        const newpage = page + 1
+    const getCardInfoBySearch = async (_page: number) => {
+        const newpage = _page + 1
         setpage(newpage)
         try {
             // call api
+            console.log("search url");
+            console.log(`${BACKEND_URL}/api/cardset/getbysearch/${newpage}${search === "" ? "" : `/${search}`}`);
+            
             const token = await AsyncStorage.getItem("@token")
             const res = await fetch(`${BACKEND_URL}/api/cardset/getbysearch/${newpage}${search === "" ? "" : `/${search}`}`, {
                 method: 'GET',
@@ -164,7 +167,7 @@ export default function FindScreen() {
 
                         <CardserCardList
                             data={searchResult}
-                            handleReachEnd={getCardInfoBySearch}
+                            handleReachEnd={() => getCardInfoBySearch(page + 1)}
                         />
 
                     }
