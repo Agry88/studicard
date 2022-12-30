@@ -8,6 +8,7 @@ import { CardSetCompleteInfo } from "../types"
 import { BACKEND_URL } from '@env'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused } from '@react-navigation/native';
+import generateUUID from '../utils/generateUUID';
 
 function useCardSetData(propCardsetId: undefined | string) {
     
@@ -59,9 +60,10 @@ function useCardSetData(propCardsetId: undefined | string) {
                     'Authorization': `${token}`
                 },
                 body: JSON.stringify({
-                    cardset_title: "new Card Set Title"
+                    cardset_title: `new Card Set Title${generateUUID(4)}`
                 })
             })
+            
 
             
             if (res.status !== 200) {
@@ -181,8 +183,8 @@ function useCardSetData(propCardsetId: undefined | string) {
             },
             body: JSON.stringify({
                 cardset_id: cardset_id,
-                question_title: "new question",
-                answer: "new question answer"
+                question_title: `new question${generateUUID(4)}`,
+                answer: `new question answer${generateUUID(4)}`
             })
         })
 
