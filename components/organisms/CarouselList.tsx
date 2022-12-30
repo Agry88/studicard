@@ -20,7 +20,7 @@ export default function CarouselList(props: Props) {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParams,"MainStack">>()
 
     return (
-        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
             <Carousel
                 loop
                 width={width}
@@ -29,11 +29,18 @@ export default function CarouselList(props: Props) {
                 scrollAnimationDuration={1000}
                 renderItem={({ index }) => (
                     <CardContainer>
-                        <CardsetCard data={data[index]} onPressCallback={() => {
+                        <CardsetCard 
+                        style={{
+                            height: height - 15,
+                            shadowOffset: { height: 5, width: 5 },
+                        }}
+                        data={data[index]} 
+                        onPressCallback={() => {
                             const cardSetId = data[index].id.toString()
                             console.log("pressed cardset card, id: ",cardSetId)
                             navigation.navigate("ViewCardSet", { cardSetId })
-                        }} />
+                        }} 
+                        />
                     </CardContainer>
                 )}
             />
