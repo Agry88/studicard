@@ -25,11 +25,6 @@ export default function HomeScreen({ navigation }: Props) {
     useEffect(() => {
         if (!isFocused) return
         // fetch data
-        setIsLoading(true)
-
-        setTimeout(() => {
-            setIsLoading(false)
-        }, 1500);
 
         const fetchData = async () => {
             const token = await AsyncStorage.getItem("@token")
@@ -66,6 +61,15 @@ export default function HomeScreen({ navigation }: Props) {
         fetchData()
 
     }, [isFocused])
+
+    useEffect(() => {
+        setIsLoading(true)
+
+        setTimeout(() => {
+            setIsLoading(false)
+        }, 1500);
+    }, [])
+    
 
 
     return (
