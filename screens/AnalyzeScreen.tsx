@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     }
 })
 
-const AnalyzeScreenContainer = styled.View`
+const AnalyzeScreenContainer = styled.ScrollView`
     flex: 1;
     flex-direction: column;
     margin: 80px 20px 0px 20px;
