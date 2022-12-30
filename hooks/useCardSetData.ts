@@ -140,9 +140,22 @@ function useCardSetData(propCardsetId: undefined | string) {
             })
         })
 
+        console.log("update cardset title");
+        
+        
         if (res.status !== 200) {
-            throw new Error("Failed to update cardset title")
+            const errorMessage = await res.json()
+            console.warn(res.status);
+            console.warn(errorMessage);
+            showMessage({
+                type: "danger",
+                message: "更新卡片冊名稱失敗,請重新再來"
+            })
+            return
         }
+
+        console.log("update cardset title successfully");
+        
 
     }
 
@@ -274,7 +287,7 @@ function useCardSetData(propCardsetId: undefined | string) {
     }
 
     const updateCardsetQuestionAndAnswerBackendOnBlur = async (question: string | undefined, answer: string | undefined): Promise<void> => {
-        if (!cardData?.id || !question || !answer) return
+        if (cardsetData?.id === undefined ||cardData?.id === undefined || !question || !answer) return
         // call api to update question and answer
         const token = await AsyncStorage.getItem("@token")
         const res = await fetch(`${BACKEND_URL}/api/question/update`, {
@@ -285,13 +298,11 @@ function useCardSetData(propCardsetId: undefined | string) {
             },
             body: JSON.stringify({
                 question_id: cardData.id,
-                question,
+                question_title: question,
                 answer,
-                cardset_id: cardsetData?.id
+                cardset_id: cardsetData.id
             })
         })
-
-        console.log(cardData.id, question, answer);
 
         if (res.status !== 200) {
             showMessage({
@@ -301,6 +312,8 @@ function useCardSetData(propCardsetId: undefined | string) {
             })
             return
         }
+
+        console.log("update question and answer successfully");
 
     }
 

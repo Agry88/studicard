@@ -33,8 +33,11 @@ export default function AddCardSetScreen({ navigation, route }: Props) {
 
     // clear navigation history
     useEffect(() => {
+        if (route.params?.cardSetId !== undefined) {
+            
+            navigation.setParams({ cardSetId: undefined })
+        }
         
-      navigation.setParams({ cardSetId: undefined })
 
     }, [navigation])
     
@@ -79,7 +82,7 @@ export default function AddCardSetScreen({ navigation, route }: Props) {
                         placeholderTextColor="#8D8C8C"
                         ref={cardQuestionRef}
                         value={cardData?.question}
-                        onBlur={e => { updateCardsetQuestionAndAnswerBackendOnBlur(e.nativeEvent.text, cardData?.answer) }}
+                        onBlur={e => updateCardsetQuestionAndAnswerBackendOnBlur(e.nativeEvent.text, cardData?.answer) }
                         onChangeText={(text) => { updateCardsetQuestionAndAnswerFrontendOnChange(text, cardData?.answer) }}
                     />
                 </CardContainer>
@@ -99,7 +102,7 @@ export default function AddCardSetScreen({ navigation, route }: Props) {
                         placeholderTextColor="#8D8C8C"
                         ref={cardAnswerRef}
                         value={cardData?.answer}
-                        onBlur={e => { updateCardsetQuestionAndAnswerBackendOnBlur(cardData?.question, e.nativeEvent.text) }}
+                        onBlur={e => updateCardsetQuestionAndAnswerBackendOnBlur(cardData?.question, e.nativeEvent.text) }
                         onChangeText={(text) => { updateCardsetQuestionAndAnswerFrontendOnChange(cardData?.question, text) }}
                     />
                 </CardContainer>
