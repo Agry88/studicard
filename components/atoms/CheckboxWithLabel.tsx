@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, TouchableWithoutFeedback } from "react-native";
 import Checkbox from 'expo-checkbox';
 import styled from 'styled-components/native';
 
@@ -9,7 +9,7 @@ type Props = {
     labelSize?: number;
 }
 
-export default function CheckBoxWithLabel({ label, value, onValueChange , labelSize }: Props) {
+export default function CheckBoxWithLabel({ label, value, onValueChange, labelSize }: Props) {
     return (
         <Container>
             <StyledChechbox
@@ -17,7 +17,9 @@ export default function CheckBoxWithLabel({ label, value, onValueChange , labelS
                 onValueChange={onValueChange}
                 color={value ? '#4630EB' : undefined}
             />
-            <Label style={{ fontSize:labelSize ?? 16 }}>{label}</Label>
+            <TouchableWithoutFeedback onPress={() =>onValueChange(!value)}>
+                <Label style={{ fontSize: labelSize ?? 16 }}>{label}</Label>
+            </TouchableWithoutFeedback>
         </Container>
     );
 }
