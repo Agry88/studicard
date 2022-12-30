@@ -1,31 +1,66 @@
-import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { ScrollView } from "react-native";
 import styled from 'styled-components/native';
 import StudiCardTitle from '../components/atoms/ScreenTitle';
 import CarouselListWithLabel from '../components/organisms/CarouselListWithLabel';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
+import { CardSetInfo, RootStackParams } from '../types';
+import { BACKEND_URL } from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { showMessage } from "react-native-flash-message"
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { MainStackParams } from '../types';
 
-const data = [
-    {
-        id: "1",
-        title: "卡片及標題1",
-        questionLength: 10,
-        createrName: "創作者1"
-    },
-    {
-        id: "2",
-        title: "卡片及標題2",
-        questionLength: 10,
-        createrName: "創作者2"
-    },
-    {
-        id: "3",
-        title: "卡片及標題3",
-        questionLength: 10,
-        createrName: "創作者3"
-    },
-]
+type Props = {
+    navigation: NativeStackScreenProps<MainStackParams,"Home">
+}
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }: Props) {
+
+    const isFocused = useIsFocused();
+    const [data, setData] = useState<CardSetInfo[]>([])
+
+    
+    useEffect(() => {
+      if (!isFocused) return
+        // fetch data
+
+        const fetchData = async () => {
+            const token = await AsyncStorage.getItem("@token")
+            const res = await fetch(`${BACKEND_URL}/api/cardset/getbysearch/1`,{
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `${token}`
+                }
+            })
+
+            if (res.status !== 200) {
+                showMessage({
+                    type: "danger",
+                    message: "取得卡片冊失敗,將重新刷新頁面",
+                })
+
+                const errorMessage = await res.json()
+
+                console.warn(errorMessage);
+
+                console.log("Refreshing page...");
+
+                navigation.navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Home' }],
+                })
+            }
+
+            const data = await res.json()
+            setData(data)
+        }
+
+        fetchData()
+
+    }, [isFocused])
+    
 
     return (
         <HomeScreenContainer>
@@ -35,7 +70,9 @@ export default function HomeScreen() {
                     data={data}
                     height={180}
                     label={"最近"}
-                    checkMoreCallBack={() => console.log("check more")}
+                    checkMoreCallBack={() => {
+                        console.log("check more");
+                    }}
                 />
                 <CarouselListWithLabel
                     data={data}

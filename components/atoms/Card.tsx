@@ -24,7 +24,7 @@ export default function Card(props: Props) {
         >
             {onPressCallback === undefined ? children :
                 <OnPressConatiner
-                    onPress={onPressCallback}
+                    onPress={() =>onPressCallback()}
                     underlayColor={shadeColor(cardColor, 100)}
                 >
                     {children}
