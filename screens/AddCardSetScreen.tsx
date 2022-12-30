@@ -1,13 +1,13 @@
 import styled from "styled-components/native";
 import Card from "../components/atoms/Card";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import type { RouteProp } from '@react-navigation/native';
+import { RouteProp, useNavigation } from '@react-navigation/native';
 import { useEffect, useRef } from "react";
 import { TextInput } from "react-native";
 import useCardSetData from "../hooks/useCardSetData";
 import { Ionicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
-import { MainStackParams } from "../types";
+import { MainStackParams, RootStackParams } from "../types";
 
 type Props = {
     navigation: NativeStackNavigationProp<MainStackParams, "AddCardSet">;
@@ -17,6 +17,8 @@ type Props = {
 export default function AddCardSetScreen({ navigation, route }: Props) {
     const cardQuestionRef = useRef<TextInput>(null)
     const cardAnswerRef = useRef<TextInput>(null)
+
+    const rootNavigation = useNavigation<NativeStackNavigationProp<RootStackParams,"MainStack">>()
 
     const {
         cardsetData,
@@ -43,7 +45,10 @@ export default function AddCardSetScreen({ navigation, route }: Props) {
         <AddCardSetScreenContainer>
 
             <FinishedButtonContainer>
-                <FinishedButton onPress={() => navigation.navigate("Home")}>
+                <FinishedButton onPress={() => {
+                    if (cardsetData?.id === undefined) return
+                    rootNavigation.navigate("ViewCardSet",{ cardSetId: cardsetData.id})
+                }}>
                     <FinishedButtonLabel>完成</FinishedButtonLabel>
                 </FinishedButton>
             </FinishedButtonContainer>
