@@ -79,7 +79,7 @@ const TitleImage = styled.Image`
 `
 
 const ButtonsContainer = styled.View`
-    width: 60%;
+    width: 70%;
     flex: 1;
     flex-direction: row;
     align-items: center;
