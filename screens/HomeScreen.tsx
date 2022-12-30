@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ActivityIndicator, ScrollView } from "react-native";
+import { ActivityIndicator, ScrollView, View } from "react-native";
 import styled from 'styled-components/native';
 import StudiCardTitle from '../components/atoms/ScreenTitle';
 import CarouselListWithLabel from '../components/organisms/CarouselListWithLabel';
@@ -26,6 +26,10 @@ export default function HomeScreen({ navigation }: Props) {
         if (!isFocused) return
         // fetch data
         setIsLoading(true)
+
+        setTimeout(() => {
+            setIsLoading(false)
+        }, 1500);
 
         const fetchData = async () => {
             const token = await AsyncStorage.getItem("@token")
@@ -57,7 +61,6 @@ export default function HomeScreen({ navigation }: Props) {
 
             const data = await res.json()
             setData(data)
-            setIsLoading(false)
         }
 
         fetchData()
@@ -68,9 +71,20 @@ export default function HomeScreen({ navigation }: Props) {
     return (
         <HomeScreenContainer>
             <StudiCardTitle text="StudiCard" />
-            <CardsetsSection>
-                {isLoading ? <ActivityIndicator size="large" color="#0000ff" /> :
-                <>
+
+
+            {isLoading ?
+                <View
+                    style={{
+                        flex: 1,
+                        justifyContent: isLoading ? "center" : 'flex-start',
+                        alignItems: isLoading ? 'center' : 'stretch',
+                    }}
+                >
+                    <ActivityIndicator size="large" color="#66A8A6" />
+                </View>
+                :
+                <CardsetsSection>
                     <CarouselListWithLabel
                         data={data}
                         height={180}
@@ -91,10 +105,10 @@ export default function HomeScreen({ navigation }: Props) {
                         label={"班級"}
                         checkMoreCallBack={() => console.log("check more")}
                     />
-                </>
-                }
+                </CardsetsSection>
+            }
 
-            </CardsetsSection>
+
         </HomeScreenContainer>
     );
 }
