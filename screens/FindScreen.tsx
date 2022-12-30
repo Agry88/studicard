@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { StyleSheet, Text, TextInput, TouchableWithoutFeedback } from "react-native";
+import { ActivityIndicator, StyleSheet, Text, TextInput, TouchableWithoutFeedback } from "react-native";
 import styled from 'styled-components/native';
 import StudiCardTitle from '../components/atoms/ScreenTitle';
 import { Entypo } from '@expo/vector-icons';
@@ -16,6 +16,7 @@ export default function FindScreen() {
     const [search, setSearch] = useState<string>("")
     const [searchResult, setSearchResult] = useState<CardSetInfo[]>([])
     const [searchHistory, setSearchHistory] = useState<string[]>([])
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     const [page, setpage] = useState(0)
 
     // Get search history
@@ -35,6 +36,9 @@ export default function FindScreen() {
     const handleSearch = async () => {
         try {
             if (search === "") return
+            // set loading state
+            setIsLoading(true)
+
             // clear side effect
             setpage(0)
             setSearchResult([])
@@ -73,18 +77,18 @@ export default function FindScreen() {
 
     const getCardInfoBySearch = async () => {
         const newpage = page + 1
-        setpage(prev => prev + 1)
+        setpage(newpage)
         try {
             // call api
             const token = await AsyncStorage.getItem("@token")
-            const res = await fetch(`${BACKEND_URL}/api/cardset/getbysearch/${newpage}${search === "" ? "" : `/${search}`}`,{
+            const res = await fetch(`${BACKEND_URL}/api/cardset/getbysearch/${newpage}${search === "" ? "" : `/${search}`}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     "Authorization": `${token}`,
                 }
-            })            
-            
+            })
+
             if (res.status !== 200) {
                 const message = await res.json();
                 console.warn(res.status);
@@ -93,24 +97,33 @@ export default function FindScreen() {
                     type: "danger",
                     message: "取得卡片集失敗"
                 })
+                setpage(newpage - 1)
                 return
             }
 
-            
-            
+
+
             const data: CardSetInfo[] = await res.json()
             console.log("search successful");
             console.log(data);
-            
-            if( data.length === 0 ) setpage(page - 1)
-            
+
+            if (data.length === 0) {
+                showMessage({
+                    type: "info",
+                    message: "沒有更多卡片集了,該搜尋結果已經到底了"
+                })
+                setpage(newpage - 1)
+            }
+
 
             setSearchResult(prev => [...prev, ...data])
         } catch (e) {
             console.log(e);
+        } finally {
+            setIsLoading(false)
         }
     }
-
+    
     return (
         <FindScreenContainer>
             <StudiCardTitle text="StudiCard" />
@@ -120,6 +133,7 @@ export default function FindScreen() {
                     <Entypo name="magnifying-glass" style={styles.icon} size={24} color="black" />
                 </TouchableWithoutFeedback>
             </InputContainer>
+
             {searchResult.length === 0 &&
                 <>
                     <RecordTitle>
@@ -140,15 +154,20 @@ export default function FindScreen() {
                     </RecordContainer>
                 </>
             }
+
             {searchResult.length !== 0 &&
                 <>
                     <SearchResultTitle>
                         搜尋結果
                     </SearchResultTitle>
-                    <CardserCardList
-                        data={searchResult}
-                        handleReachEnd={getCardInfoBySearch}
-                    />
+                    {isLoading ? <ActivityIndicator size="large" color="#0000ff" /> :
+
+                        <CardserCardList
+                            data={searchResult}
+                            handleReachEnd={getCardInfoBySearch}
+                        />
+
+                    }
                 </>
             }
         </FindScreenContainer>
