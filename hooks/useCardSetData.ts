@@ -5,9 +5,9 @@ import { showMessage } from 'react-native-flash-message';
 import { useEffect, useMemo } from 'react';
 import { useState } from 'react';
 import { CardSetCompleteInfo } from "../types"
-import generateUUID from '../utils/generateUUID';
 import { BACKEND_URL } from '@env'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useIsFocused } from '@react-navigation/native';
 
 function useCardSetData(propCardsetId: undefined | string) {
     
@@ -16,9 +16,11 @@ function useCardSetData(propCardsetId: undefined | string) {
     const [cardsetData, setCardsetData] = useState<CardSetCompleteInfo>()
     const [index, setIndex] = useState<number>(0)
     const cardData = cardsetData?.questions[index]
+    const isFocused = useIsFocused();
 
     // init cartsetData
     useEffect(() => {
+        if(!isFocused) return
 
         const fetchCardSetData = async (cardset_id: string): Promise<void> => {
             // call api to get cardset data
@@ -42,6 +44,8 @@ function useCardSetData(propCardsetId: undefined | string) {
 
             console.log("get cardset info successfully, data is");
             console.log(json);
+
+            console.log("clear route info")
 
             setCardsetData(json)
         }
@@ -95,7 +99,7 @@ function useCardSetData(propCardsetId: undefined | string) {
 
         fetchCardSetData(propCardsetId)
 
-    }, [])
+    }, [isFocused])
 
     const handleNavigateIndex = async (navigateIndex: 1 | -1): Promise<void> => {
         if (index === 0 && navigateIndex === -1 || cardsetData === undefined) return

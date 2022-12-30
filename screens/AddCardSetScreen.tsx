@@ -2,7 +2,7 @@ import styled from "styled-components/native";
 import Card from "../components/atoms/Card";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RouteProp } from '@react-navigation/native';
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { TextInput } from "react-native";
 import useCardSetData from "../hooks/useCardSetData";
 import { Ionicons } from '@expo/vector-icons';
@@ -28,6 +28,14 @@ export default function AddCardSetScreen({ navigation, route }: Props) {
         updateCardsetQuestionAndAnswerFrontendOnChange,
         updateCardsetQuestionAndAnswerBackendOnBlur
     } = useCardSetData(route.params?.cardSetId ?? undefined)
+
+    // clear navigation history
+    useEffect(() => {
+        
+      navigation.setParams({ cardSetId: undefined })
+
+    }, [navigation])
+    
 
 
 
