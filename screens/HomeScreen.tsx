@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ScrollView } from "react-native";
+import { ActivityIndicator, ScrollView } from "react-native";
 import styled from 'styled-components/native';
 import StudiCardTitle from '../components/atoms/ScreenTitle';
 import CarouselListWithLabel from '../components/organisms/CarouselListWithLabel';
@@ -12,22 +12,24 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { MainStackParams } from '../types';
 
 type Props = {
-    navigation: NativeStackScreenProps<MainStackParams,"Home">
+    navigation: NativeStackScreenProps<MainStackParams, "Home">
 }
 
 export default function HomeScreen({ navigation }: Props) {
 
     const isFocused = useIsFocused();
     const [data, setData] = useState<CardSetInfo[]>([])
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
-    
+
     useEffect(() => {
-      if (!isFocused) return
+        if (!isFocused) return
         // fetch data
+        setIsLoading(true)
 
         const fetchData = async () => {
             const token = await AsyncStorage.getItem("@token")
-            const res = await fetch(`${BACKEND_URL}/api/cardset/getbysearch/1`,{
+            const res = await fetch(`${BACKEND_URL}/api/cardset/getbysearch/1`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -55,37 +57,43 @@ export default function HomeScreen({ navigation }: Props) {
 
             const data = await res.json()
             setData(data)
+            setIsLoading(false)
         }
 
         fetchData()
 
     }, [isFocused])
-    
+
 
     return (
         <HomeScreenContainer>
             <StudiCardTitle text="StudiCard" />
             <CardsetsSection>
-                <CarouselListWithLabel
-                    data={data}
-                    height={180}
-                    label={"最近"}
-                    checkMoreCallBack={() => {
-                        console.log("check more");
-                    }}
-                />
-                <CarouselListWithLabel
-                    data={data}
-                    height={150}
-                    label={"卡片冊"}
-                    checkMoreCallBack={() => console.log("check more")}
-                />
-                <CarouselListWithLabel
-                    data={data}
-                    height={150}
-                    label={"班級"}
-                    checkMoreCallBack={() => console.log("check more")}
-                />
+                {isLoading ? <ActivityIndicator size="large" color="#0000ff" /> :
+                <>
+                    <CarouselListWithLabel
+                        data={data}
+                        height={180}
+                        label={"最近"}
+                        checkMoreCallBack={() => {
+                            console.log("check more");
+                        }}
+                    />
+                    <CarouselListWithLabel
+                        data={data}
+                        height={150}
+                        label={"卡片冊"}
+                        checkMoreCallBack={() => console.log("check more")}
+                    />
+                    <CarouselListWithLabel
+                        data={data}
+                        height={150}
+                        label={"班級"}
+                        checkMoreCallBack={() => console.log("check more")}
+                    />
+                </>
+                }
+
             </CardsetsSection>
         </HomeScreenContainer>
     );
