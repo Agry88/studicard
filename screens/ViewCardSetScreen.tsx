@@ -13,6 +13,7 @@ import { Menu, MenuItem, MenuDivider } from 'react-native-material-menu';
 import { BACKEND_URL } from "@env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { showMessage } from "react-native-flash-message"
+import { useIsFocused } from '@react-navigation/native';
 
 
 type Props = {
@@ -24,6 +25,8 @@ export default function ViewCardSetScreen({ route, navigation }: Props) {
     const [cardSetData, setCardSetData] = useState<CardSetCompleteInfo>()
     const [menuVisible, setMenuVisible] = useState(false);
     const mainNavigation = useNavigation<NativeStackNavigationProp<MainStackParams>>()
+    const isFocused = useIsFocused();
+    
 
     const navigateToEditCardSet = () => {
         if (!cardSetData?.id) return
@@ -72,6 +75,7 @@ export default function ViewCardSetScreen({ route, navigation }: Props) {
 
     // init data using cardset_id
     useEffect(() => {
+        if(!isFocused) return
         const cardsetId = route.params.cardSetId
 
         const fetchCardSetData = async () => {
@@ -95,6 +99,7 @@ export default function ViewCardSetScreen({ route, navigation }: Props) {
 
                 const data = await res.json()
 
+                console.log("getting question data");
                 console.log(data);
 
                 setCardSetData(data)
@@ -104,7 +109,7 @@ export default function ViewCardSetScreen({ route, navigation }: Props) {
         }
 
         fetchCardSetData()
-    }, [])
+    }, [isFocused])
 
 
 
@@ -119,7 +124,7 @@ export default function ViewCardSetScreen({ route, navigation }: Props) {
                 </ScreenNavigatorIconContainer>
 
                 <ScreenTitle>
-                    卡片冊
+                    {cardSetData?.name}
                 </ScreenTitle>
 
                 <ScreenNavigatorIconContainer>
