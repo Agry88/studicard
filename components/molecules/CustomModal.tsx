@@ -1,5 +1,6 @@
 import { View, Modal, TouchableWithoutFeedback, Dimensions } from "react-native";
 import styled from 'styled-components/native';
+import { useKeyboardVisible } from "../../hooks/useKeyboardVisible";
 
 type Props = {
     isVisible: boolean;
@@ -12,6 +13,7 @@ export default function CustomModal(props: Props) {
 
     const { isVisible, closeModal, children, title } = props;
     const modalHeight = Dimensions.get('window').height * 45 / 100;
+    const isKeyboardVisible = useKeyboardVisible()
 
     return (
         <Modal
@@ -24,13 +26,21 @@ export default function CustomModal(props: Props) {
                 <OutSideModal />
             </TouchableWithoutFeedback>
 
-            <ModalContainer style={{ marginTop: modalHeight }}>
-                <ModalContent>
-                    <ModalTitle>{title}</ModalTitle>
+            <ModalContainer style={{
+                marginTop: modalHeight,
+                top: isVisible && isKeyboardVisible ? "-40%" : "0%",
+            }}
+            >
+                <TouchableWithoutFeedback
+                onPress={() => closeModal()}
+                >
+                    <ModalContent>
+                        <ModalTitle>{title}</ModalTitle>
 
-                    {children}
+                        {children}
 
-                </ModalContent>
+                    </ModalContent>
+                </TouchableWithoutFeedback>
             </ModalContainer>
         </Modal>
     );
